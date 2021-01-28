@@ -10,6 +10,7 @@ function App() {
     // variable to get access input
     const todoNameRef = useRef()
     const LOCAL_STORAGE_KEY = 'todoApp.todos'
+
     //load todos from local storage
     useEffect(() => {
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
@@ -43,13 +44,19 @@ function App() {
         todoNameRef.current.value = null
     }
 
+    function handleClearTodos(e){
+        //clear out all completed todos
+        const newTodos = todos.filter(todo => !todo.complete)
+        setTodos(newTodos)
+    }
+
     return (
         //empty tag around all elements bc it can only return one element
         <>
             <TodoList todos={todos} toggleTodo={toggleTodo}/>
             <input ref={todoNameRef} type="text"/>
             <button onClick={handleAddTodo}>Add Todo</button>
-            <button>Clear Todos</button>
+            <button onClick={handleClearTodos}>Clear Todos</button>
             <div>{todos.filter(todo => !todo.complete).length} left to do</div>
         </>
     )
