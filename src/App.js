@@ -24,6 +24,14 @@ function App() {
         //runs this function everytime the todos array change
     }, [todos])
 
+
+    function toggleTodo(id){
+        const newTodos = [...todos]
+        const todo = newTodos.find(todo => todo.id === id)
+        todo.complete = !todo.complete
+        setTodos(newTodos)
+    }
+
     function handleAddTodo(e) {
         //get inputs value
         const name = todoNameRef.current.value
@@ -38,11 +46,11 @@ function App() {
     return (
         //empty tag around all elements bc it can only return one element
         <>
-            <TodoList todos={todos}/>
+            <TodoList todos={todos} toggleTodo={toggleTodo}/>
             <input ref={todoNameRef} type="text"/>
             <button onClick={handleAddTodo}>Add Todo</button>
             <button>Clear Todos</button>
-            <div>0 left to do</div>
+            <div>{todos.filter(todo => !todo.complete).length} left to do</div>
         </>
     )
 }
